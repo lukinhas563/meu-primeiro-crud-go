@@ -7,9 +7,8 @@ import (
 	"github.com/lukinhas563/meu-primeiro-crud-go/src/config/logs"
 	"github.com/lukinhas563/meu-primeiro-crud-go/src/config/validation"
 	"github.com/lukinhas563/meu-primeiro-crud-go/src/controller/models/requests"
-	"github.com/lukinhas563/meu-primeiro-crud-go/src/controller/models/responses"
 	"github.com/lukinhas563/meu-primeiro-crud-go/src/models"
-	"github.com/lukinhas563/meu-primeiro-crud-go/src/models/service"
+	"github.com/lukinhas563/meu-primeiro-crud-go/src/views"
 	"go.uber.org/zap"
 )
 
@@ -17,7 +16,7 @@ var (
 	userDomainInterface models.UserDomainInterface
 )
 
-func CreateUser(c *gin.Context) {
+func (uc *userControllerInterface) CreateUser(c *gin.Context) {
 	logs.Info("Init create_user controller",
 		zap.String("journey", "createUser"))
 
@@ -38,19 +37,11 @@ func CreateUser(c *gin.Context) {
 		userRequest.Name,
 		userRequest.Age,
 	)
-	service := service.NewUserDomainService()
-	if err := service.CreateUser(domain); err != nil {
+	if err := uc.service.CreateUser(domain); err != nil {
 		c.JSON(err.Code, err)
-	}
-
-	response := responses.UserResponse{
-		Id:    "test",
-		Email: userRequest.Email,
-		Name:  userRequest.Name,
-		Age:   userRequest.Age,
 	}
 
 	logs.Info("User created successfully", zap.String("journey", "createUser"))
 
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusOK, views.ConvertDomainToResponse(domain))
 }

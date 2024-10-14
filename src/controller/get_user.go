@@ -5,12 +5,12 @@ import (
 	rest_error "github.com/lukinhas563/meu-primeiro-crud-go/src/config/err"
 )
 
-func GetUserById(c *gin.Context) {
+func (uc *userControllerInterface) GetUserById(c *gin.Context) {
 	err := rest_error.NewBadRequestError("Você chamou essa rota errada")
 
 	c.JSON(err.Code, err)
 }
 
-func GetUserByEmail(c *gin.Context) {
+func (uc *userControllerInterface) GetUserByEmail(c *gin.Context) {
 
 }
