@@ -8,7 +8,12 @@ import (
 	"github.com/lukinhas563/meu-primeiro-crud-go/src/config/validation"
 	"github.com/lukinhas563/meu-primeiro-crud-go/src/controller/models/requests"
 	"github.com/lukinhas563/meu-primeiro-crud-go/src/controller/models/responses"
+	"github.com/lukinhas563/meu-primeiro-crud-go/src/models"
 	"go.uber.org/zap"
+)
+
+var (
+	userDomainInterface models.UserDomainInterface
 )
 
 func CreateUser(c *gin.Context) {
@@ -24,6 +29,16 @@ func CreateUser(c *gin.Context) {
 
 		c.JSON(errResponse.Code, errResponse)
 		return
+	}
+
+	domain := models.NewUserDomain(
+		userRequest.Email,
+		userRequest.Password,
+		userRequest.Name,
+		userRequest.Age,
+	)
+	if err := domain.CreateUser(); err != nil {
+		c.JSON(err.Code, err)
 	}
 
 	response := responses.UserResponse{
