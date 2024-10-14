@@ -1,4 +1,4 @@
-package models
+package service
 
 import (
 	rest_error "github.com/lukinhas563/meu-primeiro-crud-go/src/config/err"
@@ -6,8 +6,8 @@ import (
 	"go.uber.org/zap"
 )
 
-func (ud *userDomain) UpdateUser() *rest_error.RestError {
-	logs.Info("Init updateUser model", zap.String("journey", "updateUser"))
+func (ud *userDomainService) DeleteUser(id string) *rest_error.RestError {
+	logs.Info("Init deleteUser model", zap.String("journey", "deleteUser"))
 
 	return nil
 }
